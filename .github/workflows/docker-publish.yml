@@ -39,7 +39,7 @@ jobs:
       - name: Verify no baked-in secrets in workspace
         run: |
           echo "Scanning workspace for baked secrets..."
-          if grep -rni "OPENAI_API_KEY=sk-" .; then
+          if grep -rni "OPENAI_API_KEY=sk-" --exclude-dir=".github" .; then
             echo "FAIL: Found raw API key in codebase! Do not build image."
             exit 1
           fi
