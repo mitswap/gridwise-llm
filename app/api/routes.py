@@ -44,6 +44,7 @@ async def health() -> dict:
         "requestBody": {
             "content": {
                 "application/json": {
+                    "schema": {"type": "object"},
                     "example": {
                         "scenario_id": "SAMPLE-01",
                         "hours": [
