@@ -1,0 +1,30 @@
+name: Render Keep-Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to prevent Render free-tier instances from sleeping (which happens after 15m of inactivity).
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+    inputs:
+      url:
+        description: 'The URL to ping'
+        required: false
+        default: ''
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        env:
+          SERVICE_URL: ${{ secrets.SERVICE_URL }} # E.g., https://gridwise-llm-xxxx.onrender.com
+        run: |
+          TARGET_URL="${{ github.event.inputs.url || secrets.SERVICE_URL }}"
+          if [ -z "$TARGET_URL" ]; then
+            echo "SERVICE_URL is not set in GitHub Secrets. Skipping."
+            exit 0
+          fi
+          echo "Pinging $TARGET_URL/health..."
+          curl -sS -f "$TARGET_URL/health"
+          echo -e "\nPing successful!"

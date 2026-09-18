@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: gridwise-llm
+    env: docker
+    region: oregon
+    plan: free
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # The user must provide this securely in the Render dashboard!
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_BASE_URL
+        value: ""
+      - key: LLM_TIMEOUT
+        value: "20.0"
+      - key: PORT
+        value: "8000"
