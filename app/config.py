@@ -10,7 +10,7 @@ import logging
 import re
 from dotenv import load_dotenv
 
-load_dotenv()  # loads .env if present (never committed)
+load_dotenv(override=True)  # loads .env if present and overrides existing env vars
 
 
 # ── LLM Provider ──

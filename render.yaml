@@ -12,7 +12,7 @@ services:
       - key: OPENAI_MODEL
         value: gpt-4o-mini
       - key: OPENAI_BASE_URL
-        value: ""
+        value: "https://openrouter.ai/api/v1"
       - key: LLM_TIMEOUT
         value: "20.0"
       - key: PORT

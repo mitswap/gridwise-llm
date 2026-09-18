@@ -1,0 +1,62 @@
+name: Publish Docker Image to GHCR
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=long
+
+      - name: Verify no baked-in secrets in workspace
+        run: |
+          echo "Scanning workspace for baked secrets..."
+          if grep -rni "OPENAI_API_KEY=sk-" .; then
+            echo "FAIL: Found raw API key in codebase! Do not build image."
+            exit 1
+          fi
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Verify Image
+        run: |
+          echo "Verifying local image run capability..."
+          docker run -d --name gridwise-test -p 8000:8000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          sleep 5
+          curl -f http://localhost:8000/health || (docker logs gridwise-test && exit 1)
+          docker stop gridwise-test
+          echo "Success! Image runs correctly."

@@ -19,7 +19,11 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+import warnings
 import pulp
+
+# Suppress PuLP 4.0 deprecation warnings to keep logs clean
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="pulp")
 
 from app.schemas.request import HourEntry, BatteryConfig
 from app.schemas.response import DirectiveInterpretationEntry, DirectiveType, BatteryAction
