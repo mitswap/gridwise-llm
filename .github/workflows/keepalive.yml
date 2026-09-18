@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Ping Health Endpoint
         env:
-          SERVICE_URL: ${{ secrets.SERVICE_URL }} # E.g., https://gridwise-llm-xxxx.onrender.com
+          SERVICE_URL: ${{ secrets.SERVICE_URL }} # E.g., https://gridwise-llm-cdgp.onrender.com
         run: |
           TARGET_URL="${{ github.event.inputs.url || secrets.SERVICE_URL }}"
           if [ -z "$TARGET_URL" ]; then

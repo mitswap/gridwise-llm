@@ -44,7 +44,6 @@ async def health() -> dict:
         "requestBody": {
             "content": {
                 "application/json": {
-                    "schema": OptimizeEnergyRequest.model_json_schema(),
                     "example": {
                         "scenario_id": "SAMPLE-01",
                         "hours": [
