@@ -55,7 +55,7 @@ The LLM is **solely responsible for Natural Language Understanding (NLU)**. It i
 ### Local Setup
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/gridwise-llm.git
+git clone https://github.com/mitswap/gridwise-llm.git
 cd gridwise-llm
 
 # 2. Create a virtual environment & install dependencies
@@ -107,8 +107,8 @@ pytest tests/test_scorecard.py -v --tb=short
 If you do not want to set up Python locally, you can pull the public Docker image from GitHub Container Registry (GHCR):
 
 ```bash
-docker pull ghcr.io/<your-github-username>/gridwise-llm:latest
-docker run -d --name gridwise -p 8000:8000 -e OPENAI_API_KEY="sk-your-real-key-here" ghcr.io/<your-github-username>/gridwise-llm:latest
+docker pull ghcr.io/mitswap/gridwise-llm:latest
+docker run -d --name gridwise -p 8000:8000 -e OPENAI_API_KEY="sk-your-real-key-here" ghcr.io/mitswap/gridwise-llm:latest
 ```
 
 ---
