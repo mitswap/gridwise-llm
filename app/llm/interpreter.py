@@ -35,17 +35,14 @@ _client: AsyncOpenAI | None = None
 
 
 def get_openai_client() -> AsyncOpenAI:
-    """Get or create the OpenAI-compatible async client (singleton)."""
-    global _client
-    if _client is None:
-        kwargs: dict[str, Any] = {
-            "api_key": OPENAI_API_KEY,
-            "timeout": float(LLM_TIMEOUT),
-        }
-        if OPENAI_BASE_URL:
-            kwargs["base_url"] = OPENAI_BASE_URL
-        _client = AsyncOpenAI(**kwargs)
-    return _client
+    """Get the OpenAI-compatible async client."""
+    kwargs: dict[str, Any] = {
+        "api_key": OPENAI_API_KEY,
+        "timeout": float(LLM_TIMEOUT),
+    }
+    if OPENAI_BASE_URL:
+        kwargs["base_url"] = OPENAI_BASE_URL
+    return AsyncOpenAI(**kwargs)
 
 
 def reset_client() -> None:

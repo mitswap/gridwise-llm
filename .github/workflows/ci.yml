@@ -31,7 +31,5 @@ jobs:
         pytest -v
         
     - name: Run performance tests
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         pytest tests/test_performance.py -v
