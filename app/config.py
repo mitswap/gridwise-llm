@@ -17,7 +17,7 @@ load_dotenv(override=True)  # loads .env if present and overrides existing env v
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_BASE_URL: str | None = os.getenv("OPENAI_BASE_URL")
-LLM_TIMEOUT: int = int(os.getenv("LLM_TIMEOUT", "15"))
+LLM_TIMEOUT: int = int(float(os.getenv("LLM_TIMEOUT", "15")))
 
 # ── Server ──
 HOST: str = os.getenv("HOST", "0.0.0.0")

@@ -38,7 +38,35 @@ async def health() -> dict:
 
 # ── POST /optimize-energy ────────────────────────────────────────────────────
 
-@router.post("/optimize-energy")
+@router.post(
+    "/optimize-energy",
+    openapi_extra={
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": OptimizeEnergyRequest.model_json_schema(),
+                    "example": {
+                        "scenario_id": "SAMPLE-01",
+                        "hours": [
+                            {"hour": 0, "demand_kwh": 100, "solar_kwh": 0, "tariff_bdt_per_kwh": 8},
+                            {"hour": 1, "demand_kwh": 90, "solar_kwh": 0, "tariff_bdt_per_kwh": 8},
+                            {"hour": 2, "demand_kwh": 80, "solar_kwh": 0, "tariff_bdt_per_kwh": 8}
+                        ],
+                        "battery": {
+                            "capacity_kwh": 200,
+                            "initial_energy_kwh": 50,
+                            "minimum_energy_kwh": 20,
+                            "max_charge_kwh_per_hour": 50,
+                            "max_discharge_kwh_per_hour": 50
+                        },
+                        "operator_notes": ["Reserve 30 kWh from 9:00 to 11:00."]
+                    }
+                }
+            },
+            "required": True,
+        }
+    }
+)
 async def optimize_energy(request: Request) -> JSONResponse:
     """
     Main endpoint — full pipeline:
